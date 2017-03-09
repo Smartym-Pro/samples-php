@@ -1,0 +1,25 @@
+FROM php:7.0
+
+#postgreSQL extension install
+RUN apt-get update && apt-get install -y \
+    libpq-dev \
+    && docker-php-ext-install pdo pdo_pgsql
+
+#zip php extension install
+RUN apt-get install -y \
+    zlib1g-dev \
+    && docker-php-ext-install zip
+
+#GD php extension install
+RUN apt-get install -y libfreetype6-dev libjpeg62-turbo-dev libpng12-dev
+RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
+RUN docker-php-ext-install gd
+
+# exif php extension install
+RUN docker-php-ext-install exif
+
+RUN usermod -u 1000 www-data
+
+WORKDIR /var/www/crm/
+
+CMD ["php", "/var/www/crm/bin/console", "gos:websocket:server", "--env=prod"]

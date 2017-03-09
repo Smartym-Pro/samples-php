@@ -1,0 +1,40 @@
+services:
+    api.customer.address.create.handler:
+        class: ServiceBundle\Handlers\Customer\CustomerAddressCreateHandler
+        arguments:
+            - '@=service("security.token_storage").getToken().getUser()'
+            - '@doctrine.orm.entity_manager'
+            - '@security.authorization_checker'
+            - '@=service("doctrine").getRepository("DomainBundle:Customer\\DictCustomerAddress")'
+            - '@fos_user.user_manager'
+        tags:
+            - { name: tactician.handler, command: ServiceBundle\Commands\Customer\CustomerAddressCreateCommand }
+
+    api.customer.address.read.list.handler:
+        class: ServiceBundle\Handlers\Customer\CustomerAddressReadListHandler
+        arguments:
+            - '@security.authorization_checker'
+            - '@=service("doctrine").getRepository("DomainBundle:Customer\\DictCustomerAddress")'
+            - '@fos_user.user_manager'
+        tags:
+            - { name: tactician.handler, command: ServiceBundle\Commands\Customer\CustomerAddressReadListCommand }
+
+    api.customer.address.read.handler:
+        class: ServiceBundle\Handlers\Customer\CustomerAddressReadHandler
+        arguments:
+            - '@security.authorization_checker'
+            - '@=service("doctrine").getRepository("DomainBundle:Customer\\DictCustomerAddress")'
+            - '@fos_user.user_manager'
+        tags:
+            - { name: tactician.handler, command: ServiceBundle\Commands\Customer\CustomerAddressReadCommand }
+
+    api.customer.address.update.handler:
+        class: ServiceBundle\Handlers\Customer\CustomerAddressUpdateHandler
+        arguments:
+            - '@=service("security.token_storage").getToken().getUser()'
+            - '@doctrine.orm.entity_manager'
+            - '@security.authorization_checker'
+            - '@=service("doctrine").getRepository("DomainBundle:Customer\\DictCustomerAddress")'
+            - '@fos_user.user_manager'
+        tags:
+            - { name: tactician.handler, command: ServiceBundle\Commands\Customer\CustomerAddressUpdateCommand }

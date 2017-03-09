@@ -1,0 +1,14 @@
+DomainBundle\Entity\DictCurrency:
+    type: entity
+    table: dict_currency
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+    fields:
+        code:
+            column: code
+            type: string
+            length: 3
+            nullable: false
+            unique: true

@@ -1,0 +1,7 @@
+user_order_notification_mqtt:
+    channel: order/status/{order_id}/user/{user_id}
+    requirements:
+        order_id:
+          pattern: "^\\d+$"
+        user_id:
+          pattern: "^\\d+$"

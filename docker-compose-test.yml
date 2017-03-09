@@ -1,0 +1,18 @@
+version: '2'
+
+services:
+  crm-postgres:
+    image: postgres:9.6
+    environment:
+      - POSTGRES_DB=crm
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=mysecretpassword
+  crm-php-test:
+    build:
+      context: ./docker/php/test
+      dockerfile: docker-php-test
+    volumes:
+      - $BUILD_VOLUME:/var/www/crm
+    depends_on:
+      - crm-postgres
+    command: dockerize -wait tcp://db:5432 -timeout 60s

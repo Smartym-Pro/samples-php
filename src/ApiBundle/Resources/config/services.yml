@@ -1,0 +1,13 @@
+services:
+    fractal.manager.serializer.with.objects:
+        class:        ApiBundle\Service\Fractal\FractalDataArraySerializer
+
+    fractal.manager:
+        class:        ApiBundle\Service\Fractal\FractalManager
+        arguments:
+            - '@fractal.manager.serializer.with.objects'
+
+    fractal.paginator:
+        class:        ApiBundle\Service\Fractal\FractalPaginator
+        arguments:
+            - '@knp_paginator'

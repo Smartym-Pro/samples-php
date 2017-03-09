@@ -1,0 +1,50 @@
+services:
+    api.order.read.handler:
+        class: ServiceBundle\Handlers\Order\OrderReadHandler
+        arguments:
+            - '@=service("doctrine").getRepository("DomainBundle:Orders\\Order")'
+            - '@security.authorization_checker'
+        tags:
+            - { name: tactician.handler, command: ServiceBundle\Commands\Order\OrderReadCommand }
+
+    api.order.read.list.handler:
+        class: ServiceBundle\Handlers\Order\OrderReadListHandler
+        arguments:
+            - '@=service("doctrine").getRepository("DomainBundle:Orders\\Order")'
+            - '@=service("security.token_storage").getToken().getUser()'
+        tags:
+            - { name: tactician.handler, command: ServiceBundle\Commands\Order\OrderReadListCommand }
+
+    api.order.recommended.read.list.handler:
+        class: ServiceBundle\Handlers\Order\OrderRecommendedReadListHandler
+        arguments:
+            - '@=service("doctrine").getRepository("DomainBundle:Orders\\Order")'
+        tags:
+            - { name: tactician.handler, command: ServiceBundle\Commands\Order\OrderRecommendedReadListCommand }
+
+    api.order.create.handler:
+        class: ServiceBundle\Handlers\Order\OrderCreateHandler
+        arguments:
+            - '@=service("security.token_storage").getToken().getUser()'
+            - '@doctrine.orm.entity_manager'
+            - '@=service("doctrine").getRepository("DomainBundle:Orders\\Order")'
+            - '@=service("doctrine").getRepository("DomainBundle:Orders\\OrderStatus")'
+            - '@=service("doctrine").getRepository("DomainBundle:Orders\\OrderChecklistPoint")'
+            - '@=service("doctrine").getRepository("DomainBundle:Customer\\DictCustomerAddress")'
+            - '@fos_user.user_manager'
+            - '@security.authorization_checker'
+        tags:
+            - { name: tactician.handler, command: ServiceBundle\Commands\Order\OrderCreateCommand }
+
+    api.order.update.handler:
+        class: ServiceBundle\Handlers\Order\OrderUpdateHandler
+        arguments:
+            - '@=service("security.token_storage").getToken().getUser()'
+            - '@doctrine.orm.entity_manager'
+            - '@=service("doctrine").getRepository("DomainBundle:Orders\\Order")'
+            - '@=service("doctrine").getRepository("DomainBundle:Orders\\OrderStatus")'
+            - '@fos_user.user_manager'
+            - '@security.authorization_checker'
+            - '@=service("doctrine").getRepository("DomainBundle:Customer\\DictCustomerAddress")'
+        tags:
+            - { name: tactician.handler, command: ServiceBundle\Commands\Order\OrderUpdateCommand }

@@ -1,0 +1,59 @@
+DomainBundle\Entity\Orders\Order:
+    type: entity
+    repositoryClass: ServiceBundle\Model\Repository\OrderRepository
+    table: order_list
+    indexes:
+      idx_start_datetime:
+        columns: [ start_datetime ]
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+    fields:
+        createdDatetime:
+            column: created_datetime
+            type: datetime
+        updatedDatetime:
+            column: updated_datetime
+            type: datetime
+        uniqueNumber:
+            column: unique_number
+            type: string
+            unique: true
+            length: 100
+        startDatetime:
+            column: start_datetime
+            type: datetime
+            nullable: true
+        description:
+            column: description
+            type: text
+            nullable: true
+        organization:
+            column: organization
+            type: string
+            length: 100
+            nullable: true
+    oneToOne:
+        feedback:
+            targetEntity: DomainBundle\Entity\Orders\OrderFeedback
+            mappedBy: order
+    manyToOne:
+        createdBy:
+            targetEntity: ApiBundle\Entity\User
+            joinColumn:
+                name: created_by
+                referencedColumnName: id
+                nullable: false
+        updatedBy:
+            targetEntity: ApiBundle\Entity\User
+            joinColumn:
+                name: updated_by
+                referencedColumnName: id
+                nullable: false
+        customer:
+            targetEntity: ApiBundle\Entity\User
+            joinColumn:
+                name: customer_id
+                referencedColumnName: id
+                nullable: false

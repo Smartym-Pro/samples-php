@@ -1,0 +1,37 @@
+FROM php:7.0
+
+ARG BUILD_VOLUME
+
+USER root
+
+#install needed php extensions
+RUN apt-get update && apt-get install -y wget libpq-dev \
+    && docker-php-ext-install pdo pdo_pgsql zip
+
+#install and enable xdebug
+RUN pecl install xdebug
+RUN docker-php-ext-enable xdebug
+
+#install git(composer needed)
+RUN apt-get install git -y -q
+
+#install dockerize
+ENV DOCKERIZE_VERSION v0.3.0
+RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
+    && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
+    && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+
+#install and configure composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+RUN composer global require "hirak/prestissimo:^0.3"
+RUN composer config -g github-oauth.github.com 6c09c9006844053054f2ee92f5c0bde888f3569f
+
+#install PHPUnit
+RUN wget https://phar.phpunit.de/phpunit-6.0.phar
+RUN chmod +x phpunit-6.0.phar
+RUN mv phpunit-6.0.phar /usr/local/bin/phpunit
+
+#install code PHP_CodeCoverage
+RUN composer require --dev phpunit/php-code-coverage
+
+ENTRYPOINT /var/www/crm/run-tests.sh

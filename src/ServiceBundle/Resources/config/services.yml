@@ -1,0 +1,67 @@
+services:
+    commandbus.service.loger:
+        class:        ServiceBundle\Service\CommandBus\Logger
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@=service("doctrine").getRepository("DomainBundle:Audit")'
+            - '@security.token_storage'
+
+    commandbus.service.middleware.loger:
+        class:        ServiceBundle\Service\CommandBus\MiddlewareLogger
+        arguments:
+            - '@commandbus.service.loger'
+
+    glide.response_factory:
+        class: League\Glide\Responses\SymfonyResponseFactory
+        factory: ['ServiceBundle\Service\Image\ResponseAbstractFactory', createFactory]
+        arguments:
+            - '@request_stack'
+
+    glide.server:
+        class:     League\Glide\Server
+        factory:   ['League\Glide\ServerFactory', create]
+        arguments:
+            - {source: '@oneup_flysystem.image_filesystem', cache: '@oneup_flysystem.image_cache_filesystem', response: '@glide.response_factory', group_cache_in_folders: true}
+
+
+    # WebSockets Notifications
+    ws.order.notification.router:
+        class: ServiceBundle\Service\Notification\WS\OrderNotificationRouter
+
+    ws.order.notification.sender:
+        class: ServiceBundle\Service\Notification\WS\OrderNotificationSender
+        arguments:
+            - '@queue.client'
+            - '@fractal.manager'
+            - '@=service("doctrine").getRepository("DomainBundle:Orders\\OrderChecklistPoint")'
+            - '@fos_user.user_manager'
+            - '@translator'
+            - '@=service("doctrine").getRepository("ApiBundle:User")'
+            - '@ws.order.notification.router'
+            - '@gos_pubsub_router.websocket'
+            - '@gos_web_socket.wamp.pusher'
+
+
+    # MQTT Notifications
+    mqtt.order.notification.router:
+        class: ServiceBundle\Service\Notification\MQTT\OrderNotificationRouter
+
+    mqtt.order.notification.sender:
+        class: ServiceBundle\Service\Notification\MQTT\OrderNotificationSender
+        arguments:
+            - '@queue.client'
+            - '@fractal.manager'
+            - '@=service("doctrine").getRepository("DomainBundle:Orders\\OrderChecklistPoint")'
+            - '@fos_user.user_manager'
+            - '@translator'
+            - '@=service("doctrine").getRepository("ApiBundle:User")'
+            - '@mqtt.order.notification.router'
+            - '@gos_pubsub_router.queue'
+
+
+    # Notifications
+    order.notification.sender:
+        class: ServiceBundle\Service\Notification\OrderNotificationSenderFacade
+        arguments:
+            - '@ws.order.notification.sender'
+            - '@mqtt.order.notification.sender'

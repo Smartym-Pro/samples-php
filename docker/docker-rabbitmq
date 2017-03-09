@@ -1,0 +1,6 @@
+FROM rabbitmq:3.6
+
+ARG enable_management
+
+RUN rabbitmq-plugins enable --offline rabbitmq_mqtt
+RUN rabbitmq-plugins enable --offline rabbitmq_management

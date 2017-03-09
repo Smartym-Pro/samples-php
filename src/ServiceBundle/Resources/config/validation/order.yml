@@ -1,0 +1,148 @@
+ServiceBundle\Commands\Order\OrderReadCommand:
+    properties:
+        id:
+            - NotNull: { message:  validation.not_null.id }
+            - Type:
+                type: integer
+                message:  validation.wrong_type.id
+
+
+ServiceBundle\Commands\Order\OrderReadListCommand:
+    properties:
+        worker_id:
+            - Type:
+                type: digit
+                message:  validation.wrong_type.worker_id
+        manager_id:
+            - Type:
+                type: digit
+                message:  'validation.wrong_type.manager_id'
+        customer_id:
+            - Type:
+                type: digit
+                message:  'validation.wrong_type.customer_id'
+        statuses:
+            - All:
+                - Choice:
+                    choices:  [NEW, PRICE_ADDED, APPROVED_BY_CUSTOMER, WORKER_ADDED, WORKER_IN_WAY, WORKER_DOING, WORKER_DONE, CLOSED, CANCELED]
+                    message:  validation.not_valid.order_status
+        start_from_timestamp:
+            - Type:
+                type: digit
+                message:  validation.wrong_type.start_from
+        start_to_timestamp:
+            - Type:
+                type: digit
+                message:  validation.wrong_type.start_to
+        mixed_search:
+            - Type:
+                type: string
+                message:  validation.wrong_type.mixed_search
+        page:
+            - Type:
+                type: digit
+                message:  validation.wrong_type.page
+        per_page:
+            - Type:
+                type: digit
+                message:  validation.wrong_type.per_page
+
+
+ServiceBundle\Commands\Order\OrderRecommendedReadListCommand:
+    properties:
+        worker_id:
+            - NotNull: { message:  validation.not_null.worker_id }
+            - Type:
+                type: integer
+                message:  validation.wrong_type.worker_id
+        start_from_timestamp:
+            - NotNull: { message:  validation.not_null.start_from }
+            - Type:
+                type: digit
+                message:  validation.wrong_type.start_from
+        start_to_timestamp:
+            - NotNull: { message:  validation.not_null.start_to }
+            - Type:
+                type: digit
+                message:  validation.wrong_type.start_to
+        page:
+            - Type:
+                type: digit
+                message:  validation.wrong_type.page
+        per_page:
+            - Type:
+                type: digit
+                message:  validation.wrong_type.per_page
+
+
+
+ServiceBundle\Commands\Order\OrderCreateCommand:
+    properties:
+        customer_id:
+            - NotNull: { message:  validation.not_null.customer_id }
+            - Type:
+                type: integer
+                message:  validation.wrong_type.customer_id
+        manager_id:
+            - Type:
+                type: integer
+                message:  'validation.wrong_type.manager_id'
+        address_id:
+            - Type:
+                type: integer
+                message:  'validation.wrong_type.address_id'
+        status:
+            - NotBlank: { message:  validation.not_blank.order_status }
+            - Choice:
+                choices:  [NEW, NEW_WAITING_PHOTOS]
+                message:  validation.not_valid.order_status
+        description:
+            - Type:
+                type: string
+                message:  validation.wrong_type.description
+        organization:
+            - Type:
+                type: string
+                message:  validation.wrong_type.organization
+        checklist:
+            - Type:
+                type: array
+                message:  validation.wrong_type.checklist
+        start_timestamp:
+            - Type:
+                type: digit
+                message:  validation.wrong_type.start_timestamp
+
+
+
+ServiceBundle\Commands\Order\OrderUpdateCommand:
+    properties:
+        id:
+            - NotNull: { message:  validation.not_null.id }
+            - Type:
+                type: integer
+                message:  validation.wrong_type.id
+        worker_id:
+            - Type:
+                type: integer
+                message:  validation.wrong_type.worker_id
+        manager_id:
+            - Type:
+                type: integer
+                message:  'validation.wrong_type.manager_id'
+        address_id:
+            - Type:
+                type: integer
+                message:  'validation.wrong_type.address_id'
+        description:
+            - Type:
+                type: string
+                message:  validation.wrong_type.description
+        organization:
+            - Type:
+                type: string
+                message:  validation.wrong_type.organization
+        start_timestamp:
+            - Type:
+                type: digit
+                message:  validation.wrong_type.start_timestamp

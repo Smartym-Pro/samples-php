@@ -1,0 +1,57 @@
+DomainBundle\Entity\Customer\DictCustomerAddress:
+    type: entity
+    table: dict_customer_address
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+    fields:
+        isDisabled:
+            column: is_disabled
+            type: smallint
+            nullable: true
+        createdDatetime:
+            column: created_datetime
+            type: datetime
+        updatedDatetime:
+            column: updated_datetime
+            type: datetime
+        title:
+            column: title
+            type: string
+            length: 200
+            nullable: false
+        address:
+            column: address
+            type: string
+            length: 200
+            nullable: false
+        x:
+            column: x
+            type: string
+            length: 20
+            nullable: false
+        y:
+            column: y
+            type: string
+            length: 20
+            nullable: false
+    manyToOne:
+        createdBy:
+            targetEntity: ApiBundle\Entity\User
+            joinColumn:
+                name: created_by
+                referencedColumnName: id
+                nullable: false
+        updatedBy:
+            targetEntity: ApiBundle\Entity\User
+            joinColumn:
+                name: updated_by
+                referencedColumnName: id
+                nullable: false
+        customer:
+            targetEntity: ApiBundle\Entity\User
+            joinColumn:
+                name: customer_id
+                referencedColumnName: id
+                nullable: false

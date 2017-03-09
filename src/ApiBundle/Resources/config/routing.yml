@@ -1,0 +1,53 @@
+#OAUTH
+api_oauth:
+    path:      /oauth/v2/token
+    defaults:  { _controller: ApiBundle:OAuth:token}
+    methods:  [GET,POST]
+
+#AUTH
+auth_login:
+    path:      /auth/getcode
+    defaults:  { _controller: ApiBundle:Auth:getCode}
+    methods:  [POST]
+
+#CUSTOMER
+customer_address_list:
+    path:      /customer/{id}/addresses
+    defaults:  { _controller: ApiBundle:Customer:getAddressList}
+    methods:  [GET]
+
+customer_address_create:
+    path:      /customer/{id}/address
+    defaults:  { _controller: ApiBundle:Customer:postAddress}
+    methods:  [POST]
+
+customer_address_update:
+    path:      /customer/address/{id}
+    defaults:  { _controller: ApiBundle:Customer:putAddress}
+    methods:  [PUT]
+
+customer_address_info:
+    path:      /customer/address/{id}
+    defaults:  { _controller: ApiBundle:Customer:getAddress}
+    methods:  [GET]
+
+#ORDER
+orders_recomended_list:
+    path:      /orders/recommended-for-worker/{id}
+    defaults:  { _controller: ApiBundle:Orders:getOrdersRecommendedList}
+    methods:  [GET]
+
+order_info:
+    path:      /order/{id}
+    defaults:  { _controller: ApiBundle:Orders:getOrder}
+    methods:  [GET]
+
+order_add:
+    path:      /order
+    defaults:  { _controller: ApiBundle:Orders:postOrder}
+    methods:  [POST]
+
+order_update:
+    path:      /order/{id}
+    defaults:  { _controller: ApiBundle:Orders:putOrder}
+    methods:  [PUT]

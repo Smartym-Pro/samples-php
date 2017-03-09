@@ -1,0 +1,98 @@
+ServiceBundle\Commands\Customer\CustomerAddressCreateCommand:
+    properties:
+        customer_id:
+            - NotBlank: { message:  validation.not_blank.customer_id }
+            - Type:
+                type: integer
+                message:  validation.wrong_type.customer_id
+        title:
+            - NotBlank: { message:  validation.not_blank.title }
+            - Type:
+                type: string
+                message:  validation.wrong_type.title
+            - Length:
+                max: 200
+                maxMessage: validation.string.max.too_big.title
+        address:
+            - NotBlank: { message:  validation.not_blank.address }
+            - Type:
+                type: string
+                message:  validation.wrong_type.address
+            - Length:
+                max: 200
+                maxMessage: validation.string.max.too_big.address
+        x:
+            - NotBlank: { message:  validation.not_blank.coordinate_x }
+            - Type:
+                type: string
+                message:  validation.wrong_type.coordinate_x
+            - Length:
+                max: 20
+                maxMessage: validation.string.max.too_big.coordinate_x
+        y:
+            - NotBlank: { message:  validation.not_blank.coordinate_y }
+            - Type:
+                type: string
+                message:  validation.wrong_type.coordinate_y
+            - Length:
+                max: 20
+                maxMessage: validation.string.max.too_big.coordinate_y
+
+ServiceBundle\Commands\Customer\CustomerAddressUpdateCommand:
+    properties:
+        id:
+            - NotBlank: { message:  validation.not_blank.id }
+            - Type:
+                type: integer
+                message:  validation.wrong_type.id
+        is_disabled:
+            - Type:
+                type: digit
+                message:  validation.wrong_type.status
+            - Choice:
+                choices:  [1, 0]
+                message:  validation.not_valid.status
+        title:
+            - Type:
+                type: string
+                message:  validation.wrong_type.title
+            - Length:
+                max: 30
+                maxMessage: validation.string.max.too_big.title
+        address:
+            - Type:
+                type: string
+                message:  validation.wrong_type.address
+            - Length:
+                max: 200
+                maxMessage: validation.string.max.too_big.address
+        x:
+            - Type:
+                type: string
+                message:  validation.wrong_type.coordinate_x
+            - Length:
+                max: 20
+                maxMessage: validation.string.max.too_big.coordinate_x
+        y:
+            - Type:
+                type: string
+                message:  validation.wrong_type.coordinate_y
+            - Length:
+                max: 20
+                maxMessage: validation.string.max.too_big.coordinate_y
+
+ServiceBundle\Commands\Customer\CustomerAddressReadListCommand:
+    properties:
+        customer_id:
+            - NotBlank: { message:  validation.not_blank.customer_id }
+            - Type:
+                type: integer
+                message:  validation.wrong_type.customer_id
+
+ServiceBundle\Commands\Customer\CustomerAddressReadCommand:
+    properties:
+        id:
+            - NotBlank: { message:  validation.not_blank.id }
+            - Type:
+                type: integer
+                message:  validation.wrong_type.id
